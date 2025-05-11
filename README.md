@@ -73,9 +73,6 @@ Email: admin@admin.com
 - `resources/views/jobs/` → İlan listeleme, detay, oluşturma sayfaları
 - `routes/web.php` → Laravel rotaları
 
-## 📄 Lisans
-
-MIT Lisansı ile lisanslanmıştır.
 
 ## 👤 Geliştirici
 
