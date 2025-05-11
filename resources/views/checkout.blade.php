@@ -1,158 +1,130 @@
 @extends('layouts.app')
-@section('title', 'Checkout')
-@section('content')
+@section('title', 'Hizmet Talebi Tamamla')
 
-<!-- start page content -->
-<div class="container">
+@section('content')
+<div class="container py-5">
     <div class="row">
-        <div class="col-md-5 offset-md-1">
-            <hr>
-            <h1 class="lead" style="font-size: 1.5em">Checkout</h1>
-            <hr>
-            <h3 class="lead" style="font-size: 1.2em; margin-bottom: 1.6em;">Billing details</h3>
+        {{-- Fatura Bilgileri --}}
+        <div class="col-md-6">
+            <h3 class="mb-4">🧾 Fatura Bilgileri</h3>
             <form action="{{ route('checkout.store') }}" method="POST">
-                @csrf()
-                <div class="form-group">
-                    <label for="email" class="light-text">Email Address</label>
-                    @guest
-                        <input type="text" name="email" class="form-control my-input" required>
-                    @else
-                        <input type="text" name="email" class="form-control my-input" value="{{ auth()->user()->email }}" readonly required>
-                    @endguest
+                @csrf
+
+                {{-- Email --}}
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-posta</label>
+                    <input type="email" name="email" class="form-control" required
+                           value="{{ auth()->check() ? auth()->user()->email : old('email') }}">
                 </div>
-                <div class="form-group">
-                    <label for="name" class="light-text">Name</label>
-                    <input type="text" name="name" class="form-control my-input" required>
+
+                {{-- İsim --}}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Ad Soyad</label>
+                    <input type="text" name="name" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="address" class="light-text">Address</label>
-                    <input type="text" name="address" class="form-control my-input" required>
+
+                {{-- Adres --}}
+                <div class="mb-3">
+                    <label for="address" class="form-label">Adres</label>
+                    <textarea name="address" class="form-control" rows="2" required></textarea>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="city" class="light-text">City</label>
-                            <input type="text" name="city" class="form-control my-input" required>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Şehir</label>
+                        <input type="text" name="city" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
-                        <label for="province" class="light-text">Province</label>
-                        <input type="text" name="province" class="form-control my-input" required>
+                    <div class="col-md-6 mb-3">
+                        <label>İlçe / Mahalle</label>
+                        <input type="text" name="province" class="form-control" required>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="postal_code" class="light-text">Postal Code</label>
-                            <input type="text" name="postal_code" class="form-control my-input" required>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Posta Kodu</label>
+                        <input type="text" name="postal_code" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
-                        <label for="phone" class="light-text">Phone</label>
-                        <input type="text" name="phone" class="form-control my-input" required>
+                    <div class="col-md-6 mb-3">
+                        <label>Telefon</label>
+                        <input type="text" name="phone" class="form-control" required>
                     </div>
                 </div>
-                <h2 style="margin-top:1em; margin-bottom:1em;">Payment details</h2>
-                <div class="form-group">
-                    <label for="name_on_card" class="light-text">Name on card</label>
-                    <input type="text" name="name_on_card" class="form-control my-input" required>
+
+                {{-- Ödeme Bilgisi (simüle) --}}
+                <h5 class="mt-4">💳 Ödeme Bilgisi (Simülasyon)</h5>
+                <div class="mb-3">
+                    <label>Kart Üzerindeki İsim</label>
+                    <input type="text" name="name_on_card" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="credit_card" class="light-text">Credit Card</label>
-                    <input type="text" name="credit_card" class="form-control my-input" required>
+                <div class="mb-3">
+                    <label>Kart Numarası</label>
+                    <input type="text" name="credit_card" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
                 </div>
-                <button type="submit" class="btn btn-success custom-border-success btn-block">Complete Order</button>
+
+                <button type="submit" class="btn btn-success w-100">İşlemi Tamamla</button>
             </form>
         </div>
-        <div class="col-md-5 offset-md-1">
-            <hr>
-            <h3>Your Order</h3>
-            <hr>
-            <table class="table table-borderless table-responsive">
+
+        {{-- Sipariş Özeti --}}
+        <div class="col-md-6">
+            <h3 class="mb-4">📋 Hizmet Özeti</h3>
+            <table class="table">
                 <tbody>
                     @foreach (Cart::instance('default')->content() as $item)
                         <tr>
-                            <td>
-                                <a href="{{ route('shop.show', $item->model->slug) }}">
-                                    <img src="{{ productImage($item->model->image) }}" height="100px" width="100px"></td>
-                                </a>
-                            <td>
-                            <td>
-                                <a href="{{ route('shop.show', $item->model->slug) }}" class="text-decoration-none">
-                                    <h3 class="lead light-text">{{ $item->model->name }}</h3>
-                                    <p class="light-text">{{ $item->model->details }}</p>
-                                    <h3 class="light-text lead text-small">${{ $item->model->price }}</h3>
-                                </a>
+                            <td width="80">
+                                <img src="{{ productImage($item->model->image) }}" class="img-fluid rounded">
                             </td>
                             <td>
-                                <span class="quantity-square">{{ $item->qty }}</span>
+                                <strong>{{ $item->model->name }}</strong><br>
+                                <small>{{ $item->model->details }}</small>
                             </td>
+                            <td>{{ $item->qty }} adet</td>
+                            <td class="text-end">{{ format($item->subtotal) }} ₺</td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <hr>
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="light-text">Subtotal</span>
-                </div>
-                <div class="col-md-4 offset-md-4">
-                    <span class="light-text" style="display: inline-block">${{ format($subtotal) }}</span>
-                </div>
-            </div>
-            @if (session()->has('coupon'))
-                <div class="row">
-                    <div class="col-md-4">
-                        <span class="light-text inline">Discount({{ session('coupon')['code'] }})</span>
-                    </div>
-                    <div class="col-md-4">
-                        <form class="form-inline" action="{{ route('coupon.destroy') }}" method="POST" style="display:inline">
-                            @csrf()
-                            @method('DELETE')
-                            <button class="inline-form-button" type="submit">Remove</button>
-                        </form>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="light-text" style="display: inline">- ${{ format($discount) }}</span>
-                    </div>
-                </div><hr>
-                <div class="row">
-                    <div class="col-md-4">
-                        <span class="light-text">New Subtotal</span>
-                    </div>
-                    <div class="col-md-4 offset-md-4">
-                        <span class="light-text" style="display: inline-block">${{ format($newSubtotal) }}</span>
-                    </div>
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="light-text">Tax(21%)</span>
-                </div>
-                <div class="col-md-4 offset-md-4">
-                    <span class="light-text" style="display: inline-block">${{ format($tax) }}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Total</span>
-                </div>
-                <div class="col-md-4 offset-md-4">
-                    <span class="text-right" style="display: inline-block">${{ format($total) }}</span>
-                </div>
-            </div>
-            <hr>
+
+            {{-- Fiyatlar --}}
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Ara Toplam</span>
+                    <span>{{ format($subtotal) }} ₺</span>
+                </li>
+
+                @if (session()->has('coupon'))
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>İndirim ({{ session('coupon')['code'] }})</span>
+                        <span>-{{ format($discount) }} ₺</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Yeni Ara Toplam</span>
+                        <span>{{ format($newSubtotal) }} ₺</span>
+                    </li>
+                @endif
+
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>KDV (18%)</span>
+                    <span>{{ format($tax) }} ₺</span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between fw-bold">
+                    <span>Toplam</span>
+                    <span>{{ format($total) }} ₺</span>
+                </li>
+            </ul>
+
+            {{-- Kupon Alanı --}}
             @if (!session()->has('coupon'))
-                <form action="{{ route('coupon.store') }}" method="POST">
-                    @csrf()
-                    <label for="coupon_code">Have a coupon ?</label>
-                    <input type="text" name="coupon_code" id="coupon" class="form-control my-input" placeholder="123456" required>
-                    <button type="submit" class="btn btn-success custom-border-success btn-block">Apply Coupon</button>
+                <form action="{{ route('coupon.store') }}" method="POST" class="d-flex gap-2">
+                    @csrf
+                    <input type="text" name="coupon_code" class="form-control" placeholder="Kupon kodu girin">
+                    <button type="submit" class="btn btn-outline-primary">Uygula</button>
                 </form>
             @endif
         </div>
     </div>
 </div>
-<!-- end page content -->
-
 @endsection

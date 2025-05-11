@@ -21,8 +21,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
+   public function index()
+{
+    $user = auth()->user();
+
+    $jobCount = \App\Models\Job::where('user_id', $user->id)->count();
+    $applicationCount = \App\Models\Application::where('user_id', $user->id)->count();
+
+    return view('home', compact('jobCount', 'applicationCount'));
+}
+
 }

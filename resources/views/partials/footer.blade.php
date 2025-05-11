@@ -1,29 +1,25 @@
-<footer class="bg-dark">
-    <div class="container bg-dark">
-        <div class="footer">
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="#" class="footer-link">Privacy policy</a><br>
-                    <a href="#" class="footer-link">Term and conditions</a><br>
-                </div>
-                <div class="col-md-4">
-                    <h3>
-                        Welcome to the site
-                    </h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, assumenda. Culpa, libero.</p>
-                </div>
-                <div class="col-md-4">
-                    <h3>
-                        Contact:
-                    </h3>
-                    <p>Email: mohammedomer789@gmail.com</p>
-                    <p>Website: <a href="https://mhmdomer.com">Personal Website</a></p>
-                    <p>Github: <a href="https://github.com/mhmdomer">@mhmdomer</a></p>
-                    <p>Twitter: <a href="https://twitter.com/mhmdomer_">@mhmdomer_</a></p>
-                    <p>LinkedIn: <a href="https://linkedin.com/in/mohammed-omer-ali">Mohammed Omer</a></p>
-                </div>
+<footer class="bg-dark text-light py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5>Sayfalar</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light">Gizlilik Politikası</a></li>
+                    <li><a href="#" class="text-light">Kullanım Şartları</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Hakan Fırat</h5>
+                <p>Bu proje Web Programlama dersi kapsamında Laravel ile geliştirilmiştir.</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>İletişim</h5>
+                <p><strong>Email:</strong> hakanaytugfirat@gmail.com</p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/hakan8755" class="text-warning">hakan8755</a></p>
+                <p><strong>LinkedIn:</strong> <a href="#" class="text-warning">Hakan Fırat</a></p>
             </div>
         </div>
-        <p>copyright &copy; Mohammed Omer Ali - All rights reserved 2019</p>
+        <hr class="border-top border-light">
+        <p class="text-center small">© {{ date('Y') }} Hakan Fırat – Tüm hakları saklıdır.</p>
     </div>
 </footer>

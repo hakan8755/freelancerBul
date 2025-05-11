@@ -5,11 +5,14 @@ return [
     'password' => env('VOYAGER_ADMIN_PASSWORD', 'password'),
 
     'user' => [
-        'add_default_role_on_register' => true,
-        'default_role'                 => 'user',
-        'default_avatar'               => 'users/default.png',
-        'redirect'                     => '/admin',
-    ],
+    'add_default_role_on_register' => true,
+    'default_role'                 => 'user',
+    'default_avatar'               => 'users/default.png',
+    'redirect'                     => '/admin',
+    'namespace'                    => App\Models\User::class, // ✅ BU ŞEKİLDE OLMALI
+],
+
+
 
     /*
     |--------------------------------------------------------------------------

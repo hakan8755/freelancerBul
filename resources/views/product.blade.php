@@ -1,70 +1,85 @@
 @extends('layouts.app')
 @section('title', $product->name)
+
 @section('content')
-
-<div class="container">
-
-    <div class="row" style="margin-bottom: 3em">
-        <div class="col-md-4 product-image">
-            <div>
-                <img src="{{ productImage($product->image) }}" width="100%" height="100%" id="current-image">
+<div class="container py-5">
+    <div class="row g-4">
+        {{-- Sol Kısım: Görsel --}}
+        <div class="col-md-5">
+            <div class="border rounded shadow-sm">
+                <img src="{{ productImage($product->image) }}" class="img-fluid w-100" id="current-image">
             </div>
-            <div class="image-thumbnails">
-                @if ($images)
-                    <img src="{{ productImage($product->image) }}" class="image-thumbnail active">
+
+            {{-- Thumbnail Galeri --}}
+            @if ($images && count($images) > 0)
+                <div class="d-flex gap-2 mt-3 flex-wrap">
+                    <img src="{{ productImage($product->image) }}" class="img-thumbnail active image-thumbnail" width="80">
                     @foreach ($images as $image)
-                        <div>
-                            <img src="{{ productImage($image) }}" class="image-thumbnail">
-                        </div>
+                        <img src="{{ productImage($image) }}" class="img-thumbnail image-thumbnail" width="80">
                     @endforeach
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
-        <div class="product-details col-md-5 offset-md-1">
-            <h2 class="lead" style="margin-top:1em">{{ $product->name }}</h2>
-            <span class="badge badge-success" style="font-size: 1em">{{ $stockLevel }}</span>
-            <p class="light-text">{{ $product->details }}</p>
-            <h3 class="lead">$ {{ format($product->price) }}</h3>
-            <p class="light-text">{!! $product->description !!}</p>
+
+        {{-- Sağ Kısım: Ürün Bilgileri --}}
+        <div class="col-md-7">
+            <h2 class="mb-2">{{ $product->name }}</h2>
+            <span class="badge bg-success mb-2">{{ $stockLevel }}</span>
+            <p class="text-muted">{{ $product->details }}</p>
+
+            <h4 class="text-danger mb-3">
+                {{ $product->price ? format($product->price) . ' ₺' : 'Fiyat belirtilmedi' }}
+            </h4>
+
+            <div class="mb-3">
+                <h5>Açıklama</h5>
+                <div class="border rounded p-3 bg-light">
+                    {!! $product->description !!}
+                </div>
+            </div>
+
             @if ($product->quantity > 0)
-                <form action="{{ route('cart.store') }}" method="POST">
-                    @csrf()
+                <form action="{{ route('cart.store') }}" method="POST" class="mt-4">
+                    @csrf
                     <input type="hidden" name="id" value="{{ $product->id }}">
                     <input type="hidden" name="name" value="{{ $product->name }}">
                     <input type="hidden" name="price" value="{{ $product->price }}">
-                    <button type="submit" class="btn custom-border-n">Add to Cart</button>
+                    <button type="submit" class="btn btn-primary w-100">
+                        Başvur / Hizmeti Talep Et
+                    </button>
                 </form>
+            @else
+                <div class="alert alert-warning mt-4">
+                    Bu hizmet şu anda alınamaz.
+                </div>
             @endif
         </div>
     </div>
-    <!-- <hr> -->
 </div>
-@include('partials.might-like')
-<!-- end page content -->
 
+@include('partials.might-like')
 @endsection
 
 @section('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentImage = document.getElementById('current-image');
+        const thumbnails = document.querySelectorAll('.image-thumbnail');
 
-    <script>
-        $(document).ready(function () {
-            // force the height to be as as long as the width
-            var w = $('#current-image').width();
-            $('#current-image').css({'height': w + 'px'});
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function () {
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
 
-            $('.image-thumbnail').on('click', (e) => {
-                $('.image-thumbnail').removeClass('active');
-                $(e.currentTarget).addClass('active');
-                if($(e.currentTarget).attr('src') != $('#current-image').attr('src')) {
-                    $(e.currentTarget).addClass('active');
-                    $('#current-image').animate({'opacity' : 0}, 300, function() {
-                        $('#current-image').attr('src', $(e.currentTarget).attr('src'));
-                        $('#current-image').animate({'opacity' : 1}, 400);
-                    })
+                if (this.src !== currentImage.src) {
+                    currentImage.style.opacity = 0;
+                    setTimeout(() => {
+                        currentImage.src = this.src;
+                        currentImage.style.opacity = 1;
+                    }, 300);
                 }
             });
-
         });
-    </script>
-
+    });
+</script>
 @endsection
