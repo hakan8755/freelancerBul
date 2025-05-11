@@ -1,55 +1,101 @@
-# ecommerce-laravel-fullstack
+# 🧑‍💻 Freelancer Hizmet Alım Platformu
 
-# Link : http://vampireecommerce.herokuapp.com
+Laravel tabanlı bu proje, freelance ilan oluşturmak ve başvuruları yönetmek isteyen kullanıcılar için basit, hızlı ve işlevsel bir sistem sunar. Kullanıcılar ilan verebilir, diğer kullanıcılar bu ilanlara başvurabilir. Başvurular admin panelinden takip edilebilir.
 
-This repo is based on the [youtube series](https://www.youtube.com/playlist?list=PLEhEHUEU3x5oPTli631ZX9cxl6cU_sDaR) by [@drehimself](https://github.com/drehimself)
+## 🚀 Özellikler
 
-## Features
+- 👤 Kullanıcı kayıt & giriş sistemi (Laravel Auth)
+- 📝 Kullanıcılar ilan oluşturabilir
+- 📄 Tüm ilanlar listelenebilir ve detayları görüntülenebilir
+- 📥 İlanlara başvuru yapılabilir (başvurular sadece admin görür)
+- 📊 Voyager admin paneli (otomatik kurulum ile gelir)
+- 📱 Duyarlı ve sade tasarım (Bootstrap 5 destekli)
 
--   Fully functional E-commerce website front-end and back-end built from scratch.
--   Using laravel voyager as an admin panel for the site.
--   javascript, jquery, bootstrap and css for the front-end.
--   Intelligent searching mechanism for products.
--   Awesome Cart package that uses session.
--   An artisan command to seed the database with all neccessary dummy data, even for voyager tables (php artisan ecommerce:install).
--   Different user roles and privileges.
--   Categories, tags and price filtering for easier search for products.
--   And much more features.
+## 🛠️ Kullanılan Teknolojiler
 
----
+- Laravel 9.x
+- Voyager Admin Paneli
+- MySQL (Veritabanı)
+- Blade + Bootstrap
+- AOS - Animate On Scroll
+- Laravel UI (Auth sistemi için)
 
-## Installation Guide
+## ⚙️ Kurulum Adımları
 
-1. clone this repo to your local machine: `git clone https://github.com/mhmdomer/ecommerce-laravel.git && cd ecommerce-laravel`
-1. copy `.example.env` to `.env` file: `cp .example.env .env`
-1. create a new database and add the database credentials to your `.env` file
-1. run `composer install`
-1. run `npm install && npm run dev`
-1. run `php artisan key:generate`
-1. run `php artisan ecommerce:install`
-1. run `php artisan serve` and then visit `http://127.0.0.1:8000/`
-1. credentials to access admin panel (email: `admin@admin.com`, password: `password`)
-1. after you login as admin, you can access the admin page from `http://127.0.0.1:8000/admin`
--   Home Page
+1. Repoyu klonlayın:
+git clone https://github.com/kullaniciadi/freelancer-platformu.git
+cd freelancer-platformu
 
-![Screenshot (35)](https://user-images.githubusercontent.com/39973541/68545143-e8aeb280-03d2-11ea-8bb1-1c245150e432.png)
+markdown
+Kopyala
+Düzenle
 
--   Shopping Page
+2. Bağımlılıkları yükleyin:
+composer install
+npm install && npm run dev
 
-![Screenshot (36)](https://user-images.githubusercontent.com/39973541/68545195-5bb82900-03d3-11ea-801f-40d1f8c3334a.png)
+markdown
+Kopyala
+Düzenle
 
--   Cart Page
+3. Ortam dosyasını oluşturun:
+cp .env.example .env
+php artisan key:generate
 
-![Screenshot (37)](https://user-images.githubusercontent.com/39973541/68545206-82765f80-03d3-11ea-8c5d-95ce0fc68e83.png)
+markdown
+Kopyala
+Düzenle
 
--   Checkout page
+4. `.env` dosyasını açın ve veritabanı ayarlarını yapın.
 
-![Screenshot (38)](https://user-images.githubusercontent.com/39973541/68545217-9a4de380-03d3-11ea-8a97-18057d9ea3f2.png)
+5. Veritabanı migrasyonlarını çalıştırın:
+php artisan migrate
 
--   Admin Orders BREAD
+markdown
+Kopyala
+Düzenle
 
-![Screenshot (33)](https://user-images.githubusercontent.com/39973541/68546326-ab035700-03dd-11ea-860c-7912775e2359.png)
+6. Voyager admin panelini yükleyin:
+php artisan voyager:install --with-dummy
 
--   Admin Products BREAD
+markdown
+Kopyala
+Düzenle
 
-![Screenshot (34)](https://user-images.githubusercontent.com/39973541/68546338-d4bc7e00-03dd-11ea-9934-4c7329435f8a.png)
+7. Uygulamayı başlatın:
+php artisan serve
+
+shell
+Kopyala
+Düzenle
+
+## 🔐 Varsayılan Admin Girişi
+
+Email: admin@admin.com
+Şifre: password
+
+markdown
+Kopyala
+Düzenle
+
+> Değiştirmek isterseniz `users` tablosundan veya Voyager panelden düzenleyebilirsiniz.
+
+## 📁 Proje Yapısı
+
+- `app/Models/Job.php` → İlan modeli
+- `app/Models/Application.php` → Başvuru modeli
+- `resources/views/jobs/` → İlan listeleme, detay, oluşturma sayfaları
+- `routes/web.php` → Laravel rotaları
+
+## 📸 Ekran Görüntüleri
+
+Kendi bilgisayarınızda `docs/screenshots/` klasörü oluşturarak görselleri ekleyebilir ve README’ye dahil edebilirsiniz.
+
+## 📄 Lisans
+
+MIT Lisansı ile lisanslanmıştır.
+
+## 👤 Geliştirici
+
+**Hakan Fırat**  
+[GitHub](https://github.com/hakan8755)
